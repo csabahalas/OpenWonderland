@@ -1,0 +1,221 @@
+/**
+ * Copyright (c) 2014, WonderBuilders, Inc., All Rights Reserved
+ */
+
+/**
+ * Project Wonderland
+ *
+ * Copyright (c) 2004-2010, Sun Microsystems, Inc., All Rights Reserved
+ *
+ * Redistributions in source code form must reproduce the above
+ * copyright and this condition.
+ *
+ * The contents of this file are subject to the GNU General Public
+ * License, Version 2 (the "License"); you may not use this file
+ * except in compliance with the License. A copy of the License is
+ * available at http://www.opensource.org/licenses/gpl-license.php.
+ *
+ * Sun designates this particular file as subject to the "Classpath"
+ * exception as provided by Sun in the License file that accompanied
+ * this code.
+ */
+
+package org.jdesktop.wonderland.modules.portal.common;
+
+import com.jme.math.Quaternion;
+import com.jme.math.Vector3f;
+import com.jme.renderer.ColorRGBA;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import org.jdesktop.wonderland.common.cell.state.CellComponentServerState;
+import org.jdesktop.wonderland.common.cell.state.annotation.ServerState;
+import org.jdesktop.wonderland.common.utils.jaxb.QuaternionAdapter;
+import org.jdesktop.wonderland.common.utils.jaxb.Vector3fAdapter;
+
+/**
+ * Server state for portal cell component
+ *
+ * @author Jonathan Kaplan <kaplanj@dev.java.net>
+ * @author Abhishek Upadhyay
+ */
+@XmlRootElement(name="portal-component")
+@ServerState
+public class PortalComponentServerState extends CellComponentServerState {
+    private String serverURL;
+    private Vector3f location = new Vector3f();
+    private Quaternion look = new Quaternion();
+    
+    private ColorRGBA backgroundColor=ColorRGBA.black;
+    private ColorRGBA textColor=ColorRGBA.white;
+    private String imageURL="";
+    private String message="Teleporting. Please Wait...";
+    
+    public enum AudioSourceType {
+	FILE,
+	CONTENT_REPOSITORY,
+	URL
+    };
+
+    private AudioSourceType audioSourceType;
+    private String audioSource;
+    private boolean uploadFile;
+    private String cachedAudioSource;
+    private float volume = 1F;
+ 
+    /** Default constructor */
+    public PortalComponentServerState() {
+    }
+
+    public PortalComponentServerState(String serverURL, Vector3f location,
+                                      Quaternion look, AudioSourceType audioSourceType,
+				      String audioSource, boolean uploadFile,
+				      String cachedAudioSource, float volume)
+    {
+        this.serverURL = serverURL;
+        this.location = location;
+        this.look = look;
+	this.audioSourceType = audioSourceType;
+	this.audioSource = audioSource;
+	this.uploadFile = uploadFile;
+	this.cachedAudioSource = cachedAudioSource;
+	this.volume = volume;
+    }
+    
+    public PortalComponentServerState(String serverURL, Vector3f location,
+                                      Quaternion look, AudioSourceType audioSourceType,
+				      String audioSource, boolean uploadFile,
+				      String cachedAudioSource, float volume,
+                                      ColorRGBA backgroundColor, ColorRGBA textColor,
+                                      String imageURL,String message)
+    {
+        this.serverURL = serverURL;
+        this.location = location;
+        this.look = look;
+	this.audioSourceType = audioSourceType;
+	this.audioSource = audioSource;
+	this.uploadFile = uploadFile;
+	this.cachedAudioSource = cachedAudioSource;
+	this.volume = volume;
+        this.backgroundColor = backgroundColor;
+        this.textColor = textColor;
+        this.imageURL = imageURL;
+        this.message = message;
+    }
+
+    @Override
+    public String getServerComponentClassName() {
+        return "org.jdesktop.wonderland.modules.portal.server.PortalComponentMO";
+    }
+
+    @XmlElement
+    public String getServerURL() {
+        return serverURL;
+    }
+
+    public void setServerURL(String serverURL) {
+        this.serverURL = serverURL;
+    }
+
+    @XmlElement
+    @XmlJavaTypeAdapter(Vector3fAdapter.class)
+    public Vector3f getLocation() {
+        return location;
+    }
+
+    public void setLocation(Vector3f location) {
+        this.location = location;
+    }
+
+    @XmlElement
+    @XmlJavaTypeAdapter(QuaternionAdapter.class)
+    public Quaternion getLook() {
+        return look;
+    }
+
+    public void setLook(Quaternion look) {
+        this.look = look;
+    }
+
+    @XmlElement
+    public AudioSourceType getAudioSourceType() {
+	return audioSourceType;
+    }
+
+    public void setAudioSourceType(AudioSourceType audioSourceType) {
+	this.audioSourceType = audioSourceType;
+    }
+
+    @XmlElement
+    public String getAudioSource() {
+	return audioSource;
+    }
+
+    public void setAudioSource(String audioSource) {
+	this.audioSource = audioSource;
+    }
+
+    @XmlElement
+    public boolean getUploadFile() {
+        return uploadFile;
+    }
+
+    public void setUploadFile(boolean uploadFile) {
+        this.uploadFile = uploadFile;
+    }
+
+    @XmlElement
+    public String getCachedAudioSource() {
+	return cachedAudioSource;
+    }
+
+    public void setCachedAudioSource(String cachedAudioSource) {
+	this.cachedAudioSource = cachedAudioSource;
+    }
+
+    @XmlElement
+    public float getVolume() {
+	return volume;
+    }
+
+    public void setVolume(float volume) {
+	this.volume = volume;
+    }
+
+    @XmlElement
+    public ColorRGBA getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(ColorRGBA backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
+    @XmlElement
+    public ColorRGBA getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(ColorRGBA textColor) {
+        this.textColor = textColor;
+    }
+
+    @XmlElement
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+    @XmlElement
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
+}
